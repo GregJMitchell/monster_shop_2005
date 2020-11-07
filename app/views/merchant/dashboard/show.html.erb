@@ -2,16 +2,7 @@
   <h1><%= @merchant.name %></h1>
   <h4><%= @merchant.full_address %></h4>
   <%= link_to "My Items", "/merchant/items?merchant_id=#{@merchant.id}" %>
-  <%= link_to "New Bulk Discount", new_merchant_bulk_discount_path, method: 'get' %>
-
-  <h3>Current Bulk Discounts</h3>
-  <% @merchant.bulk_discounts.each do |discount|%>
-    <div id="discount-<%= discount.id %>">
-      <p><%= discount.item.name %></p>
-      <p>Discount: <%= number_to_percentage(discount.discount) %></p>
-      <p>Required Quantity: <%= discount.quantity %></p>
-    </div>
-    <% end %>
+  <%= link_to "View Bulk Discounts", "/merchant/bulk_discounts", method: 'get' %>
 
   <h3>Merchant Orders To Fulfill:</h3>
   <% @merchant.pending_orders.each do |order| %>
