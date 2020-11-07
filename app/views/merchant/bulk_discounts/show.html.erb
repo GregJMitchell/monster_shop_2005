@@ -1,0 +1,4 @@
+<h1>Bulk Discount #<%= @bulk_discount.id %></h1>
+<p><%= @bulk_discount.item.name %></p>
+<p>Discount: <%= number_to_percentage(@bulk_discount.discount) %></p>
+<p>Required Quantity: <%= @bulk_discount.quantity %></p>
