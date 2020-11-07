@@ -1,4 +1,12 @@
 class Merchant:: BulkDiscountsController < Merchant::BaseController
+  def index
+    @merchant = current_user.merchant
+  end
+
+  def show
+    @bulk_discount = BulkDiscount.find(params[:id])
+  end
+  
   def new
     @bulk_discount = BulkDiscount.new
   end
@@ -9,7 +17,7 @@ class Merchant:: BulkDiscountsController < Merchant::BaseController
       @bulk_discount = BulkDiscount.new(discount_params.merge(item_id: item.id))
       if @bulk_discount.save
         flash[:notice] = "Your discount has been saved"
-        redirect_to "/merchant"
+        redirect_to "/merchant/bulk_discounts"
       else
         flash[:error] = @bulk_discount.errors.full_messages.to_sentence
         render :new
