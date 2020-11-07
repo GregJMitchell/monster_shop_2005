@@ -39,11 +39,11 @@ describe 'As a merchant user' do
 
       visit '/merchant/bulk_discounts/new'
 
-      fill_in :bulk_discount_item_name,	with: "#{item.name}" 
-      fill_in :bulk_discount_discount,	with: "20" 
-      fill_in :bulk_discount_quantity,	with: "10" 
+      fill_in :bulk_discount_item_name,	with: item.name.to_s
+      fill_in :bulk_discount_discount,	with: '20'
+      fill_in :bulk_discount_quantity,	with: '10'
 
-      click_on "Create Bulk discount"
+      click_on 'Create Bulk discount'
 
       bulk_discount = BulkDiscount.last
       within "#discount-#{bulk_discount.id}" do
@@ -51,6 +51,40 @@ describe 'As a merchant user' do
         expect(page).to have_content(bulk_discount.discount)
         expect(page).to have_content(bulk_discount.quantity)
       end
+    end
+
+    it 'If the item name entered is not found in the merchants list' do
+      merchant_user = create(:merchant_employee, email: 'merchant@gmail.com', password: 'password')
+      item = create(:item, merchant: merchant_user.merchant)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_user)
+
+      visit '/merchant/bulk_discounts/new'
+
+      fill_in :bulk_discount_item_name,	with: "Item"
+      fill_in :bulk_discount_discount,	with: '20'
+      fill_in :bulk_discount_quantity,	with: '10'
+
+      click_on 'Create Bulk discount'
+
+      expect(page).to have_content("An item by that name at your merchant does not exist")
+    end
+
+    it 'If the information entered is not valid' do
+      merchant_user = create(:merchant_employee, email: 'merchant@gmail.com', password: 'password')
+      item = create(:item, merchant: merchant_user.merchant)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_user)
+
+      visit '/merchant/bulk_discounts/new'
+
+      fill_in :bulk_discount_item_name,	with: item.name.to_s
+      fill_in :bulk_discount_discount,	with: '1000'
+      fill_in :bulk_discount_quantity,	with: '10'
+
+      click_on 'Create Bulk discount'
+
+      expect(page).to have_content("Discount must be less than or equal to 100")
     end
   end
 end
