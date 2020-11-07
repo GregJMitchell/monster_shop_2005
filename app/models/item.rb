@@ -3,6 +3,7 @@ class Item <ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :item_orders
   has_many :orders, through: :item_orders
+  has_many :bulk_discounts
 
   validates_presence_of :name,
                         :description,
@@ -47,5 +48,9 @@ class Item <ApplicationRecord
   
   def order_item(order_id)
     self.item_orders.find_by('order_id =?', order_id).id
+  end
+
+  def self.find_by_merchant(item_name, merchant_id)
+    Item.find_by(name: item_name, merchant_id: merchant_id)
   end
 end
