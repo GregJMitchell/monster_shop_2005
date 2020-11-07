@@ -7,7 +7,9 @@ Item.destroy_all
 Merchant.destroy_all
 User.destroy_all
 
-items = create_list(:item, 8)
+merchant_1 = create(:merchant)
+
+items = create_list(:item, 8, merchant_id: merchant_1.id)
 
 item_orders_0 = create_list(:item_order, 2, item: items[0])
 item_orders_1 = create_list(:item_order, 4, item: items[1])
@@ -23,6 +25,8 @@ inactive_item_2 = create(:inactive_item)
 create_list(:item_order, 10, item: inactive_item_1, quantity: 10000)
 create_list(:item_order, 10, item: inactive_item_2, quantity: 10000)
 
+
+
 user_1 = create(:user, email: 'user@gmail.com', password: 'password')
-merchant_1 = create(:merchant_employee, email: 'merchant@gmail.com', password: 'password')
+merchant_1 = create(:merchant_employee, email: 'merchant@gmail.com', password: 'password', merchant_id: merchant_1.id)
 admin_1 = create(:admin, email: 'admin@gmail.com', password: 'password')
