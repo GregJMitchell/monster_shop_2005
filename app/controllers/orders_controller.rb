@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
                                    quantity: quantity,
                                    price: item.price,
                                    merchant_id: item.merchant.id,
-                                   status: "Pending" })
+                                   status: 'Pending' })
       end
       session.delete(:cart)
       redirect_to '/profile/orders', notice: 'Your order has been created'
