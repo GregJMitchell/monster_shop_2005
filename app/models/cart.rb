@@ -27,12 +27,29 @@ class Cart
     item_quantity
   end
 
+  def find_discount(item)
+    item.bulk_discounts.order(discount: :desc).first
+  end
+
+  def apply_discount(item, discount)
+    discount_total = @contents[item.id.to_s] * (item.price * (discount.discount / 100))
+    @contents[item.id.to_s] * item.price - discount_total
+  end
+
   def subtotal(item)
-    item.price * @contents[item.id.to_s]
+    if !item.bulk_discounts.empty?
+      discount = find_discount(item)
+      if @contents[item.id.to_s] >= discount.quantity
+        apply_discount(item, discount)
+      end
+    else
+      item.price * @contents[item.id.to_s]
+    end
   end
 
   def total
     @contents.sum do |item_id,quantity|
+
       Item.find(item_id).price * quantity
     end
   end
