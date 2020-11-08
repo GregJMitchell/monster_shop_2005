@@ -1,0 +1,14 @@
+<%= form_with url: merchant_bulk_discounts_path, model: @bulk_discount, local: true do |f| %>
+  <%= f.label :item_name %>
+  <%= f.text_field :item_name %>
+  
+  <%= f.label :discount %>
+  <%= f.text_field :discount %>
+
+  <%= f.label :quantity %>
+  <%= f.text_field :quantity %>
+
+  <%= f.hidden_field :merchant_id , :value => current_user.merchant.id %>
+
+  <%= f.submit %>
+<% end %>

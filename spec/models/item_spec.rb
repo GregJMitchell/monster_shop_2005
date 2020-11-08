@@ -14,6 +14,7 @@ describe Item, type: :model do
     it {should belong_to :merchant}
     it {should have_many :reviews}
     it {should have_many :item_orders}
+    it {should have_many :bulk_discounts}
     it {should have_many(:orders).through(:item_orders)}
   end
 
@@ -192,6 +193,10 @@ describe Item, type: :model do
 
       it 'bottom_five' do
         expect(Item.bottom_five.first.name).to eq(@string.name)
+      end
+
+      it "find_by_merchant" do
+        expect(Item.find_by_merchant(@string.name, @bike_shop.id)).to eq(@string) 
       end
     end
   end

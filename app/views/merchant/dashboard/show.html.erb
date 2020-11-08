@@ -2,10 +2,11 @@
   <h1><%= @merchant.name %></h1>
   <h4><%= @merchant.full_address %></h4>
   <%= link_to "My Items", "/merchant/items?merchant_id=#{@merchant.id}" %>
+  <%= link_to "View Bulk Discounts", "/merchant/bulk_discounts", method: 'get' %>
 
   <h3>Merchant Orders To Fulfill:</h3>
   <% @merchant.pending_orders.each do |order| %>
-    <%= link_to "#{order.id}", "/merchant/orders/#{order.id}"  %>
+    <p><%= link_to "#{order.id}", "/merchant/orders/#{order.id}"  %></p>
     <p><%= order.created_at %></p>
     <h3>Order Quantity:</h3>
     <p><%= order.item_qty(@merchant.id) %></p>
