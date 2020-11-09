@@ -1,4 +1,4 @@
-# require 'rails_helper'
+require 'rails_helper'
 # When I fill out all information on the new order page
 # And click on 'Create Order'
 # An order is created and saved in the database
