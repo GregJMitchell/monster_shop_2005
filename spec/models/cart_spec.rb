@@ -63,6 +63,7 @@ RSpec.describe Cart do
       item = create(:item, merchant: merchant_user.merchant)
       item_2 = create(:item)
       discount = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item.id, quantity: 2, discount: 10)
+      discount_2 = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item.id, quantity: 2, discount: 5)
       user = create(:user, email: 'user@gmail.com', password: 'password')
       cart = Cart.new({
                         item.id.to_s => 2,
