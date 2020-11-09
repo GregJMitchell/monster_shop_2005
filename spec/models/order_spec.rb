@@ -38,8 +38,8 @@ describe Order, type: :model do
 
       @order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17_033, user_id: @user.id)
 
-      @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant_id: @meg.id)
-      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3, merchant_id: @brian.id)
+      @order_1.item_orders.create!(item: @tire, price: @tire.price * 2, quantity: 2, merchant_id: @meg.id)
+      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price * 3, quantity: 3, merchant_id: @brian.id)
     end
     it '#grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
