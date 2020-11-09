@@ -107,5 +107,20 @@ RSpec.describe Cart do
 
       expect(cart.subtotal(item)).to eq(item_subtotal)
     end
+
+    it 'new_price' do
+      merchant_user = create(:merchant_employee, email: 'merchant@gmail.com', password: 'password')
+      item = create(:item, merchant: merchant_user.merchant)
+      item_2 = create(:item)
+      discount = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item.id, quantity: 2, discount: 10)
+
+      cart = Cart.new({
+                        item.id.to_s => 2,
+                        item_2.id.to_s => 1
+                      })
+      item_subtotal = item.price - (item.price * (discount.discount / 100))
+      expect(cart.new_price(item)).to eq(item_subtotal)
+      expect(cart.new_price(item_2)).to eq(item_2.price)
+    end
   end
 end
