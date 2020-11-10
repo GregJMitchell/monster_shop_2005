@@ -122,5 +122,28 @@ RSpec.describe Cart do
       expect(cart.new_price(item)).to eq(item_subtotal)
       expect(cart.new_price(item_2)).to eq(item_2.price)
     end
+
+    it "duplicate_discounts()" do
+      merchant_user = create(:merchant_employee, email: 'merchant@gmail.com', password: 'password')
+      item = create(:item, merchant: merchant_user.merchant)
+      item_2 = create(:item)
+      discount = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item.id, quantity: 2, discount: 10)
+      discount1 = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item.id, quantity: 2, discount: 8)
+
+      discount = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item.id, quantity: 2, discount: 10)
+      discount1 = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item.id, quantity: 2, discount: 8)
+      cart = Cart.new({
+        item.id.to_s => 2,
+        item_2.id.to_s => 1
+      })
+
+      expect(cart.duplicate_discounts(item).first.discount).to eq(discount.discount)
+
+      discount3 = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item_2.id, quantity: 2, discount: 10)
+      discount2 = create(:bulk_discount, merchant_id: merchant_user.merchant_id, item_id: item_2.id, quantity: 1, discount: 8)
+
+      expect(cart.duplicate_discounts(item_2).first.discount).to eq(discount2.discount)
+    end
+    
   end
 end
