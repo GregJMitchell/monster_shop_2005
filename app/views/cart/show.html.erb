@@ -41,7 +41,7 @@
         <p id="cart-subtotal"><%=number_to_currency(cart.subtotal(item))%></p>
     </td>
     <td> 
-      <% unless item.bulk_discounts.empty? %>
+      <% unless cart.find_discount(item).nil? #item.no_discounts? %>
         <p><%= number_to_percentage(cart.find_discount(item).discount, precision: 2)  %> off </p>
         <p>on <%= cart.find_discount(item).quantity %> or more.</p>
       <% end %>

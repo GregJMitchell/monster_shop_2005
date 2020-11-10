@@ -45,9 +45,9 @@
           <td><p><%= number_to_currency(item_order.price * item_order.quantity)%></p></td>
           <td><img src="<%= item_order.item.image %>" alt=""></td>
           <td>
-              <% unless item_order.item.bulk_discounts.empty? %>
+              <% unless cart.find_discount(item_order.item).nil? #item_order.item.no_discounts? %>
                 <p><%= number_to_percentage(cart.find_discount(item_order.item).discount, precision: 2)  %> off </p>
-                <p>on <%= cart.find_discount(item_order.item).quantity %> or more.</p>
+                <p>on <%= cart.find_discount(item_order.item).quantity  %> or more.</p>
               <% end %>
           </td>
         </section>
