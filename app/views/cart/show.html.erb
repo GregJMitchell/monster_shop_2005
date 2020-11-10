@@ -9,6 +9,7 @@
     <th>Price</th>
     <th>Quantity</th>
     <th>Subtotal</th>
+    <th>Discount</th>
   </tr>
   <% @items.each do |item,quantity| %>
     <tr id= "cart-item-<%=item.id%>">
@@ -38,6 +39,12 @@
         </td>
       <td>
         <p id="cart-subtotal"><%=number_to_currency(cart.subtotal(item))%></p>
+    </td>
+    <td> 
+      <% unless cart.find_discount(item).nil? #item.no_discounts? %>
+        <p><%= number_to_percentage(cart.find_discount(item).discount, precision: 2)  %> off </p>
+        <p>on <%= cart.find_discount(item).quantity %> or more.</p>
+      <% end %>
     </td>
     </tr>
   <% end %>

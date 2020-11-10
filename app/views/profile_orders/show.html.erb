@@ -31,6 +31,8 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Subtotal</th>
+        <th>Image</th>
+        <th>Discount</th>
       </tr>
     <% @order.item_orders.each do |item_order|%>
       <tr>
@@ -38,10 +40,16 @@
           <td><p><%=link_to item_order.item.name, "/items/#{item_order.item_id}"%></p></td>
           <td><p><%= item_order.item.description %></p></td>
           <td><p><%= link_to item_order.item.merchant.name, "/merchants/#{item_order.item.merchant.id}"%></p></td>
-          <td><p><%= number_to_currency(item_order.price / item_order.quantity)%></p></td>
-          <td><p><%= item_order.quantity%></p></td>
           <td><p><%= number_to_currency(item_order.price)%></p></td>
+          <td><p><%= item_order.quantity%></p></td>
+          <td><p><%= number_to_currency(item_order.price * item_order.quantity)%></p></td>
           <td><img src="<%= item_order.item.image %>" alt=""></td>
+          <td>
+              <% unless cart.find_discount(item_order.item).nil? #item_order.item.no_discounts? %>
+                <p><%= number_to_percentage(cart.find_discount(item_order.item).discount, precision: 2)  %> off </p>
+                <p>on <%= cart.find_discount(item_order.item).quantity  %> or more.</p>
+              <% end %>
+          </td>
         </section>
       </tr>
     <% end %>

@@ -29,14 +29,24 @@ class Cart
     item_quantity
   end
 
+  def duplicate_discounts(item)
+    item.bulk_discounts.where("quantity <= ?", @contents[item.id.to_s]).order(quantity: :asc).reorder(discount: :desc)
+
+  end
+
   def find_discount(item)
-    item.bulk_discounts.order(discount: :desc).first
+    discounts = duplicate_discounts(item)
+    discount = discounts.first
+    return nil if discounts.empty?
+    return discount
   end
 
   def new_price(item)
-    unless item.bulk_discounts.empty?
+    unless item.no_discounts?
       discount = find_discount(item)
-      return item.price - (item.price * (discount.discount / 100)) if @contents[item.id.to_s] >= discount.quantity
+      unless discount.nil?
+        return item.price - (item.price * (discount.discount / 100)) 
+      end
     end
     item.price
   end
@@ -47,9 +57,9 @@ class Cart
   end
 
   def subtotal(item)
-    unless item.bulk_discounts.empty?
+    unless item.no_discounts?
       discount = find_discount(item)
-      return apply_discount(item, discount) if @contents[item.id.to_s] >= discount.quantity
+      return apply_discount(item, discount) unless discount.nil?
     end
     item.price * @contents[item.id.to_s]
   end

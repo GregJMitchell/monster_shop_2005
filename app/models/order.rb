@@ -8,7 +8,7 @@ class Order < ApplicationRecord
   belongs_to :user
 
   def grandtotal
-    item_orders.sum('price')
+    item_orders.sum('price * quantity')
   end
 
   def count_items
