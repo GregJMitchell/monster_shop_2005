@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
       cart.items.each do |item, quantity|
         order.item_orders.create({ item: item,
                                    quantity: quantity,
-                                   price: cart.subtotal(item),
+                                   price: cart.new_price(item),
                                    merchant_id: item.merchant.id,
                                    status: 'Pending' })
       end
