@@ -53,4 +53,9 @@ class Item <ApplicationRecord
   def self.find_by_merchant(item_name, merchant_id)
     Item.find_by(name: item_name, merchant_id: merchant_id)
   end
+
+  def no_discounts?
+    return true if bulk_discounts.empty?
+    return false if !bulk_discounts.empty?
+  end
 end
