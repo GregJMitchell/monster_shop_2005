@@ -1,17 +1,19 @@
-<h1><%= current_user.name %>'s Orders</h1>
+<center>
+  <h1><%= current_user.name %>'s Orders</h1>
 
-<% current_user.orders.each do |order| %>
-  <section id="item-<%= order.id %>">
-    <h4>Order Number: <%=  link_to "#{order.id}", "/profile/orders/#{order.id}" %></h4>
-    <h4>Date of Order:  <%=  order.created_at %></h4>
-    <h4>Last Updated:  <%=  order.updated_at %></h4>
-    <h4>Current Status:  <%=  order.status %></h4>
-    <h4>Items in Order:  <%=  order.count_items %></h4>
-      <% order.items.each do |item| %>
-        <ul>
-          <li align ="left">Item: <%= item.name %>&nbsp&nbsp&nbsp&nbsp Price: $<%= item.price %></li>
-        </ul>
-      <% end %>
-    <h4>Total: $<%= order.grandtotal %></h4><br>
-  </section>
-<% end %>
+  <% current_user.orders.each do |order| %>
+    <section id="item-<%= order.id %>">
+      <h4>Order Number: <%=  link_to "#{order.id}", "/profile/orders/#{order.id}" %></h4>
+      <h4>Date of Order:  <%=  order.created_at %></h4>
+      <h4>Last Updated:  <%=  order.updated_at %></h4>
+      <h4>Current Status:  <%=  order.status %></h4>
+      <h4>Items in Order:  <%=  order.count_items %></h4>
+        <% order.items.each do |item| %>
+          <ul>
+            <li align ="left">Item: <%= item.name %>&nbsp&nbsp&nbsp&nbsp Price: $<%= item.price %></li>
+          </ul>
+        <% end %>
+      <h4>Total: $<%= order.grandtotal %></h4><br>
+    </section>
+  <% end %>
+</center>
