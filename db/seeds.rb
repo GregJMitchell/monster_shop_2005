@@ -1,3 +1,5 @@
+require 'factory_bot'
+
 include FactoryBot::Syntax::Methods
 
 ItemOrder.destroy_all
