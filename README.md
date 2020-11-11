@@ -1,5 +1,5 @@
 # Monster Shop
-[Project Link](https://monster-shop-jjgg.herokuapp.com/)
+[Project Link](https://final-monster-shop-g2.herokuapp.com/)
 
 ## Contributors
 * [Garrett Cottrell](https://github.com/GarrettCottrell)
