@@ -1,6 +1,17 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  # def put(*) end
+  # root "welcome#index"
+
+  # resources :merchants
+
+  # resources :items, only: %i[index show edit update destroy]
+
+  # resources :merchants do
+  #   resources :items
+  # end
+
   root "welcome#index"
 
   get "/merchants", to: "merchants#index"
@@ -21,6 +32,16 @@ Rails.application.routes.draw do
   post "/merchants/:merchant_id/items", to: "items#create"
   delete "/items/:id", to: "items#destroy"
 
+  # resources :items, only: %i[new create] do
+  #   resources :reviews, only: %i[new create]
+  # end
+
+  # resources :items, only: %i[new create] do
+  #   resources :reviews, only: %i[new create]
+  # end
+
+  # resources :reviews, only: %i[edit update destroy]
+
   get "/items/:item_id/reviews/new", to: "reviews#new"
   post "/items/:item_id/reviews", to: "reviews#create"
 
@@ -28,40 +49,44 @@ Rails.application.routes.draw do
   patch "/reviews/:id", to: "reviews#update"
   delete "/reviews/:id", to: "reviews#destroy"
 
+
   post "/cart/:item_id", to: "cart#add_item"
   get "/cart", to: "cart#show"
   delete "/cart", to: "cart#empty"
   delete "/cart/:item_id", to: "cart#remove_item"
   patch "/cart/:item_id", to: "cart#modify_quantity"
 
+  # resources :orders, only: %i[new create]
+
   get "/orders/new", to: "orders#new"
   post "/orders", to: "orders#create"
-  #get "/orders/:id", to: "orders#show"
-
 
   namespace :merchant do
-    get "/", to: "dashboard#show"
-    get "/items", to: "items#index"
-    get "/orders/:order_id", to: "orders#show"
-    patch "/itemorders/:itemorder_id", to: "item_orders#update"
-    post "/items/deactivate", to: "items#deactivate"
-    post "/items/activate", to: "items#activate"
-    resources :items, except: [:put]
+    resources :orders, only: %i[show]
+    resources :items
+    resources :bulk_discounts
+  get "/", to: "dashboard#show"
+  patch "/itemorders/:itemorder_id", to: "item_orders#update"
+  post "/items/deactivate", to: "items#deactivate"
+  post "/items/activate", to: "items#activate"
   end
 
   namespace :admin do
-    resources :merchants, only: [:index]
+    resources :merchants, only: %i[index]
+    resources :users, only: %i[index show]
     patch '/merchants/disable', to: "merchants#disable"
     patch '/merchants/enable', to: "merchants#enable"
     get '/', to: "dashboard#index"
     get '/users/:id', to: "users#show"
     patch '/:order_id', to: "profile_orders#update"
     get '/merchants/:merchant_id', to: 'merchants#show'
-    resources :users, only: [:index, :show]
   end
 
-  get "/register", to: "users#new"
+  # resources :users, only: %i[create]
   post "/users", to: "users#create"
+
+  get "/register", to: "users#new"
+
 
   get "/profile", to: "users_dashboard#show"
   get "/profile/edit", to: "users_dashboard#edit"
@@ -70,6 +95,7 @@ Rails.application.routes.draw do
   get '/profile/orders', to: "profile_orders#index"
   get '/profile/orders/:id', to: "profile_orders#show"
   patch "/profile/orders/:id", to: "profile_orders#cancel"
+
 
   get "/password/edit", to: "passwords#edit"
   patch "/password", to: "passwords#update"
